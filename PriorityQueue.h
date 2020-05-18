@@ -5,9 +5,13 @@ using namespace std;
 template <typename T>
 class PriorityQueue{
 	struct n{
+//		Distance from start
 		int priority;
+		
+//		This info will be will be used to store pointer to a node
 		T* info;
-		struct n *next;
+		
+		n* next;
 	};
 	private:
 		n *head;
@@ -39,11 +43,21 @@ class PriorityQueue{
     	}
 	}
 	
-	n* popFront(){
+	T* popFront(){
 		n *temp = head;
-		head = head->next;
-//		don't forget to free the pointer after use
-		return temp;
+		if(head == NULL){
+			return NULL;
+		}
+		else if(head->next != NULL){
+			head = head->next;	
+		} else{
+			T* node = head->info;
+			delete head;
+			head = NULL;
+			return node;
+		}
+//		Returns a node pointer
+		return temp->info;
 	}
 	
 	void deleteFront(){
@@ -57,6 +71,7 @@ class PriorityQueue{
     	}
   	}
   	
+//  	Kinda useless
 //  If a distance has been changed, delete the old node and reinsert it.
   	void updateDist(T *updatedNode){
 		n *selectedNode = head;

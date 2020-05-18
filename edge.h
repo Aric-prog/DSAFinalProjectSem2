@@ -14,7 +14,7 @@ class edge{
 		}
 		U* getDestination(){
 			return destination;
-		};
+		}
 		
 		int getWeight(){
 			return weight;
