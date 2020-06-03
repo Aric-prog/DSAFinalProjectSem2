@@ -7,8 +7,10 @@ using namespace std;
 
 unordered_set<node<string>*> visitedNodes;
 PriorityQueue<node<string>> pq;
-VertexList <string>a;
+VertexList <string> a;
 
+//	Function declaration
+void show();
 void enqueue(node<string>* n);
 void dijkstra();
 void enqueueEdges(node<string>* n);
@@ -27,7 +29,7 @@ int main(){
 	a.addNode("J");
 	a.addNode("K");
 	a.addNode("L");
-	
+	 
 	a.addEdge(7, a.atData("S"), a.atData("A"));
 	a.addEdge(2, a.atData("S"), a.atData("B"));
 	a.addEdge(3, a.atData("A"), a.atData("B"));
@@ -50,6 +52,7 @@ int main(){
 	
 	cout<<"Node"<<"\t"<<"Weight -> Destination";
 	cout<<endl;
+	show();
 	
 	for(int i = 0; i < a.size(); i++){
 		cout << a.at(i)->data << "\t";
@@ -61,7 +64,15 @@ int main(){
 	dijkstra();
 }
 
-//	Auto check if duplicate exist
+void show(){
+	for(int i = 0; i < a.size(); i++){
+		cout << a.at(i)->data << "\t";
+		a.displayEdges(a.at(i));
+		cout << endl;
+	}
+}
+
+//  Enqueue a node into the priority queue
 void enqueue(node<string>* n){
 //	Checks if node has been visited or not
 	if(visitedNodes.find(n) == visitedNodes.end()){
@@ -76,11 +87,9 @@ void dijkstra(){
 //	Auto automatically knows the datatype from its initializer
 	auto* currNode = pq.popFront();
 	while(currNode != NULL){
-		
 		auto currEdge = a.getEdges(currNode);
 //		Iterates through all the edges from a node
 		for(int i = 0; i < currEdge.size(); i++){
-//			cout << currEdge.at(i).getDestination()->distanceFromStart << endl;
 			auto* checkedDest = currEdge.at(i).getDestination();
 			
 			if(currNode->distanceFromStart + currEdge.at(i).getWeight() < checkedDest->distanceFromStart){
@@ -90,10 +99,16 @@ void dijkstra(){
 				
 			enqueue(checkedDest);
 		}
-//		cout << tmp;
 		currNode = pq.popFront();
 	}
+	cout << endl;
 	
-	cout << a.atData("A")->distanceFromStart << endl;
-	cout << a.atData("A")->cameFrom->data;
+//	This at data is the destination
+//	Replace this with other data to check the path to that node
+//	This can be replaced with a function argument.
+	currNode = a.atData("E");
+	while(currNode != NULL){
+		cout << currNode->data << endl;
+		currNode = currNode->cameFrom;
+	}
 }
