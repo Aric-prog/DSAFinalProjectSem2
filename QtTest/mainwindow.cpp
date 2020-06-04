@@ -11,13 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    QBrush redBrush(Qt::red);
-    QBrush blueBrush(Qt::blue);
-    QPen blackpen(Qt::black);
-    blackpen.setWidth(6);
-
-
-
 
 }
 
