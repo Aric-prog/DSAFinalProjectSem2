@@ -108,7 +108,17 @@ void dijkstra(){
 //	This can be replaced with a function argument.
 	currNode = a.atData("E");
 	while(currNode != NULL){
-		cout << currNode->data << endl;
+		cout << "( Node : ";
+		cout << currNode->data;
+		cout << " , Distance to node : " << currNode->distanceFromStart;
+		cout << " , Came from : ";
+		if(currNode->distanceFromStart != 0){
+			cout << currNode->cameFrom->data;
+		} 
+		else{
+			cout << "-";
+		}
+		cout << " )"<< endl;
 		currNode = currNode->cameFrom;
 	}
 }
