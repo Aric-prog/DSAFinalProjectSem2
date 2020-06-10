@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsView>
+#include <QMouseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +24,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void mousePressEvent(QMouseEvent *event);
+
 
 private:
     Ui::MainWindow *ui;
