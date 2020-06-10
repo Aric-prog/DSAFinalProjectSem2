@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 unordered_set<node<string>*> visitedNodes;
 PriorityQueue<node<string>> pq;
 VertexList <string> a;
@@ -83,13 +84,13 @@ void enqueue(node<string>* n){
 
 //	Later, this function will accept two node* parameter, one for start and one for end
 void dijkstra(){
-
 //	Auto automatically knows the datatype from its initializer
-	auto* currNode = pq.popFront();
+	auto* currNode = pq.popFront(); 
 	while(currNode != NULL){
 		auto currEdge = a.getEdges(currNode);
 //		Iterates through all the edges from a node
 		for(int i = 0; i < currEdge.size(); i++){
+//			Blue line happens
 			auto* checkedDest = currEdge.at(i).getDestination();
 			
 			if(currNode->distanceFromStart + currEdge.at(i).getWeight() < checkedDest->distanceFromStart){
@@ -106,7 +107,7 @@ void dijkstra(){
 //	This at data is the destination
 //	Replace this with other data to check the path to that node
 //	This can be replaced with a function argument.
-	currNode = a.atData("E");
+	currNode = a.atData("B");
 	while(currNode != NULL){
 		cout << "( Node : ";
 		cout << currNode->data;

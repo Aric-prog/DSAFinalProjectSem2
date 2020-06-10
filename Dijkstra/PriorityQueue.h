@@ -11,8 +11,10 @@ class PriorityQueue{
 //		This info will be will be used to store pointer to a node
 		T* info;
 		
+		
 		n* next;
 	};
+	
 	private:
 		n *head;
 
