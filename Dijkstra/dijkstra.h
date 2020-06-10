@@ -8,67 +8,29 @@ using namespace std;
 
 unordered_set<node<string>*> visitedNodes;
 PriorityQueue<node<string>> pq;
-VertexList <string> a;
+VertexList <string> vl;
 
 //	Function declaration
 void show();
 void enqueue(node<string>* n);
 void dijkstra();
 void enqueueEdges(node<string>* n);
+void addNode();
 
-int main(){ 
-	a.addNode("S",true);
-	a.addNode("A");
-	a.addNode("B");
-	a.addNode("C");
-	a.addNode("D");
-	a.addNode("E");
-	a.addNode("F");
-	a.addNode("G");
-	a.addNode("H");
-	a.addNode("I");
-	a.addNode("J");
-	a.addNode("K");
-	a.addNode("L");
-	 
-	a.addEdge(7, a.atData("S"), a.atData("A"));
-	a.addEdge(2, a.atData("S"), a.atData("B"));
-	a.addEdge(3, a.atData("A"), a.atData("B"));
-	a.addEdge(3, a.atData("S"), a.atData("C"));
-	a.addEdge(4, a.atData("B"), a.atData("D"));
-	a.addEdge(4, a.atData("A"), a.atData("D"));
-	a.addEdge(5, a.atData("D"), a.atData("F"));
-	a.addEdge(3, a.atData("F"), a.atData("H"));
-	a.addEdge(1, a.atData("B"), a.atData("H"));
-	a.addEdge(2, a.atData("G"), a.atData("H"));
-	a.addEdge(2, a.atData("G"), a.atData("E"));
-	a.addEdge(5, a.atData("E"), a.atData("K"));
-	a.addEdge(4, a.atData("K"), a.atData("J"));
-	a.addEdge(4, a.atData("K"), a.atData("I"));
-	a.addEdge(6, a.atData("J"), a.atData("I"));
-	a.addEdge(4, a.atData("L"), a.atData("I"));
-	a.addEdge(4, a.atData("J"), a.atData("L"));
-	a.addEdge(2, a.atData("C"), a.atData("L"));
-
-	
-	cout<<"Node"<<"\t"<<"Weight -> Destination";
-	cout<<endl;
-	show();
-	
-	for(int i = 0; i < a.size(); i++){
-		cout << a.at(i)->data << "\t";
-		a.displayEdges(a.at(i));
-		cout << endl;
-	}
-	
-	enqueue(a.atData("S"));
-	dijkstra();
+void addNode(string s,bool start = false){
+	vl.addNode(s,start);
+}
+void addEdge(node<string>* src, node<string>* dest, int weight){
+	vl.addEdge(weight,src,dest);
 }
 
 void show(){
-	for(int i = 0; i < a.size(); i++){
-		cout << a.at(i)->data << "\t";
-		a.displayEdges(a.at(i));
+//	Shows the adjacency list
+	cout<<"Node"<<"\t"<<"Weight -> Destination";
+	cout<<endl;
+	for(int i = 0; i < vl.size(); i++){
+		cout << vl.at(i)->data << "\t";
+		vl.displayEdges(vl.at(i));
 		cout << endl;
 	}
 }
@@ -83,11 +45,13 @@ void enqueue(node<string>* n){
 }
 
 //	Later, this function will accept two node* parameter, one for start and one for end
-void dijkstra(){
+//	Name is dijkstraRun so that this does not become a constructor
+void dijkstraRun(string start, string dest){
+	enqueue(vl.atData(start));
 //	Auto automatically knows the datatype from its initializer
 	auto* currNode = pq.popFront(); 
 	while(currNode != NULL){
-		auto currEdge = a.getEdges(currNode);
+		auto currEdge = vl.getEdges(currNode);
 //		Iterates through all the edges from a node
 		for(int i = 0; i < currEdge.size(); i++){
 //			Blue line happens
@@ -107,7 +71,7 @@ void dijkstra(){
 //	This at data is the destination
 //	Replace this with other data to check the path to that node
 //	This can be replaced with a function argument.
-	currNode = a.atData("B");
+	currNode = vl.atData(dest);
 	while(currNode != NULL){
 		cout << "( Node : ";
 		cout << currNode->data;
