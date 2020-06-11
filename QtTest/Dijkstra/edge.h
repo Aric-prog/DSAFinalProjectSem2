@@ -1,14 +1,15 @@
 #include <iostream>
-
+#include <QGraphicsItem>
 using namespace std;
 
 template <typename U>
 class edge{
 	private:
+        QGraphicsItem* edgeUI;
 		U* destination;
 		int weight;
 	public:
-		edge(int weight, U* dest){
+        edge(int weight, U* dest){
 			this->destination = dest;
 			this->weight = weight;
 		}
@@ -21,9 +22,9 @@ class edge{
 		}
 		
 		void setDestination(U* dest){
-			this.destination = dest;
+            destination = dest;
 		}
-		void setWeight(int weight){
-			this.weight = weight;
+        void setWeight(int w){
+            weight = w;
 		}
 };

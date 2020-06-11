@@ -10,8 +10,6 @@ class PriorityQueue{
 		
 //		This info will be will be used to store pointer to a node
 		T* info;
-		
-		
 		n* next;
 	};
 	
@@ -72,8 +70,7 @@ class PriorityQueue{
     		free(t);
     	}
   	}
-  	
-//  	Kinda useless
+
 //  If a distance has been changed, delete the old node and reinsert it.
   	void updateDist(T *updatedNode){
 		n *selectedNode = head;

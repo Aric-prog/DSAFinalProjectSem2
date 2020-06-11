@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <QGraphicsItem>
 #include "edge.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ struct node{
 	
 //	Edge coming out of a node
 	vector<edge<node>> edgeList;
+	QGraphicsItem* nodeUI;
 	node* cameFrom;
 	node* next;
 };
@@ -64,9 +66,10 @@ class VertexList{
 	}
 	
 //	Adds a node accepting an input for the data
-	void addNode(T input, bool start = false){
+	void addNode(T input,QGraphicsItem* uiPointer, bool start = false){
 		node<T>* tmp = new node<T>;
 		
+		tmp->nodeUI = uiPointer;
 		tmp->data = input;
 		tmp->next = NULL;
 		tmp->cameFrom = NULL;
@@ -86,7 +89,7 @@ class VertexList{
 	
 //	Adds an edge to a node, giving a pointer destination to the destination node
 //	Doesn't matter if you give source or destination first, it's a two way line
-	bool addEdge(int weight, node<T>* src, node<T>* dest){
+	bool addEdge(int weight, node<T>* src, node<T>* dest,QGraphicsItem* uiPointer){
 //		Checks if linked node is the same
 		if(src == dest){
 			cout << "Cannot link to itself" << endl;
@@ -134,39 +137,6 @@ class VertexList{
 		}
 		cout << "Can't find the node" << endl;
 		return NULL;
-	}
-	
-//	accepts an index as the location of the node
-//	Inserts a node based on the index
-	void insertNode(int inputIndex, T inputData){
-		if(inputIndex > size()){
-			cout << "Index exceeds array size" << endl; 
-		}
-		else if(inputIndex == 0){
-			
-		}
-		else if(inputIndex == size()){
-			addNode(inputData);	
-		} 
-		else{
-			node<T>* tmp = new node<T>;
-			node<T>* nextNode;
-			
-			tmp->data = inputData;
-			tmp->index = inputIndex;
-			node<T>* previous = this->head;
-			
-			while(previous->index != inputIndex - 1){
-				
-				previous = previous->next;
-			}
-			nextNode = previous->next;
-			
-			tmp->next = nextNode;
-			previous->next = tmp;
-			
-			updateNodeIndex(tmp);
-		}
 	}
 	
 //	Gives the size of the linked list

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_set>
+#include <QGraphicsItem>
 #include "VertexList.h"
 #include "PriorityQueue.h"
 
@@ -10,13 +11,12 @@ class dijkstra{
     PriorityQueue<node<string>> pq;
     VertexList <string> vl;
 
-    //	Function declaration
-
-    void addNode(string s,bool start = false){
-        vl.addNode(s,start);
+public:
+	void addNode(string s,QGraphicsItem* uiPointer,bool start = false){
+		vl.addNode(s, uiPointer,start);
     }
-    void addEdge(node<string>* src, node<string>* dest, int weight){
-        vl.addEdge(weight,src,dest);
+	void addEdge(int weight,node<string>* src, node<string>* dest, QGraphicsItem* item){
+		vl.addEdge(weight,src,dest, item);
     }
 
     void show(){
@@ -38,6 +38,16 @@ class dijkstra{
             pq.add(n);
         }
     }
+
+//    Gets a node from its graphical representation
+	node<string>* findGraphicItem(QGraphicsItem* item){
+		for(int i = 0; i < vl.size(); i++){
+			if(item == vl.at(i)->nodeUI){
+				return vl.at(i);
+			}
+		}
+		return NULL;
+	}
 
     //	Later, this function will accept two node* parameter, one for start and one for end
     //	Name is dijkstraRun so that this does not become a constructor
@@ -82,6 +92,5 @@ class dijkstra{
             currNode = currNode->cameFrom;
         }
     }
-
-}
+};
 
