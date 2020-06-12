@@ -72,7 +72,7 @@ void MainWindow::on_clearButton_pressed(){
 	idGenerator = 'a';
 	scene->clear();
 	d.clearVertexList();
-	d.show();
+	ui->setStart->setText("Set Start Node");
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *ev){
@@ -106,6 +106,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev){
 			castedGraphicItem->setBrush(*new QBrush(Qt::yellow));
 			hasSetDest = true;
 			settingDest = false;
+			ui->setStart->setText("Run simulation");
 		}
 		else{
 //			Makes sure that the start node's color doesn't get changed
