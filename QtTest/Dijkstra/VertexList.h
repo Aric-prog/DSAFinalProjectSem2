@@ -14,11 +14,16 @@ struct node{
 	int index;
 	
 //	Distance of the path from the starting node
-	int distanceFromStart;
+	double distanceFromStart;
+
 	
 //	Edge coming out of a node
 	vector<edge<node>> edgeList;
+
 	QGraphicsItem* nodeUI;
+	int nodeX;
+	int nodeY;
+
 	node* cameFrom;
 	node* next;
 };
@@ -66,14 +71,17 @@ class VertexList{
 	}
 	
 //	Adds a node accepting an input for the data
-	void addNode(T input,QGraphicsItem* uiPointer, bool start = false){
+	void addNode(T input,QGraphicsItem* uiPointer,int x, int y, bool start = false){
 		node<T>* tmp = new node<T>;
-		
+
 		tmp->nodeUI = uiPointer;
 		tmp->data = input;
 		tmp->next = NULL;
 		tmp->cameFrom = NULL;
-		tmp->distanceFromStart = start ? 0 : 10000;
+		tmp->distanceFromStart = start ? 0 : 1000000;
+
+		tmp->nodeX = x;
+		tmp->nodeY = y;
 		
 		if(head == NULL){
 			head = tmp;
@@ -89,7 +97,7 @@ class VertexList{
 	
 //	Adds an edge to a node, giving a pointer destination to the destination node
 //	Doesn't matter if you give source or destination first, it's a two way line
-	bool addEdge(int weight, node<T>* src, node<T>* dest,QGraphicsItem* uiPointer){
+	bool addEdge(double weight, node<T>* src, node<T>* dest,QGraphicsItem* uiPointer){
 //		Checks if linked node is the same
 		if(src == dest){
 			cout << "Cannot link to itself" << endl;
@@ -103,8 +111,8 @@ class VertexList{
 			}
 		}
 		
-		src->edgeList.push_back(edge<node<T>>(weight, dest));
-		dest->edgeList.push_back(edge<node<T>>(weight, src));
+		src->edgeList.push_back(edge<node<T>>(weight, dest, uiPointer));
+		dest->edgeList.push_back(edge<node<T>>(weight, src, uiPointer));
 		return true;
 	}
 
@@ -159,7 +167,7 @@ class VertexList{
 	
 //	Shows the edges of a given node in CLI
 	void displayEdges(node<T>* src){
-		for(int i = 0; i < src->edgeList.size(); i++){
+		for(unsigned int i = 0; i < src->edgeList.size(); i++){
 			cout << src->edgeList.at(i).getWeight() << " -> " << src->edgeList.at(i).getDestination()->data << "\t";
 		}
 	}

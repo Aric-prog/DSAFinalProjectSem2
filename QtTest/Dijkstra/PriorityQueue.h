@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 template <typename T>
@@ -49,13 +48,14 @@ class PriorityQueue{
 			return NULL;
 		}
 		else if(head->next != NULL){
-			head = head->next;	
+			head = head->next;
 		} else{
 			T* node = head->info;
 			delete head;
 			head = NULL;
 			return node;
 		}
+
 //		Returns a node pointer
 		return temp->info;
 	}

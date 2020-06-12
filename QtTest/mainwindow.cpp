@@ -5,26 +5,37 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QDebug>
+double pythagoras(double x1, double y1, double x2, double y2);
 
 QBrush redBrush(Qt::red);
 QBrush blueBrush(Qt::blue);
 QPen blackPen(Qt::black);
-QPen whitePen(Qt::gray);
 dijkstra d;
 
 bool adding = false;
-bool connecting = false;
+
+bool settingDest = false;
+bool settingStart = false;
+bool hasSetStart = false;
+bool hasSetDest = false;
+
+QGraphicsItem* startNodeUI = NULL;
+QGraphicsItem* destNodeUI = NULL;
+
 int i = 2;
 char idGenerator = 'a';
+
+QGraphicsItem* selected[2];
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    blackPen.setWidth(1);
+	blackPen.setWidth(2);
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
+
+	ui->graphicsView->setScene(scene);
 }
 
 MainWindow::~MainWindow()
@@ -32,48 +43,87 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//    id;
-//    Pointer* node backend;
-//    Pointer ke ellipsis;
-//    Arrylist Pointer edges;
-
-void MainWindow::on_pushButton_clicked(){
-    adding = true;
+void MainWindow::on_pushButton_pressed()
+{
+	adding = true;
 }
-void MainWindow::on_pushButton_2_clicked(){
-    connecting = true;
-    adding = false;
+void MainWindow::on_setStart_pressed()
+{
+	if(!hasSetStart){
+		settingStart = true;
+	}
+	else if(!hasSetDest){
+		settingDest = true;
+	} else{
+		d.dijkstraRun(d.findGraphicItem(startNodeUI), d.findGraphicItem(destNodeUI));
+	}
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *ev){
-    ui->label->setText("X : " + QString::number(ev->x()) + ", Y : " + QString::number(ev->y()));
-
-    if(adding){
+	QGraphicsItem* clickedItem = scene->itemAt(QPoint(ev->x(),ev->y() - 25), QTransform());
+	auto* castedGraphicItem = qgraphicsitem_cast<QGraphicsEllipseItem *>(clickedItem);
+	if(adding){
 		string s(1,idGenerator);
-		d.addNode(s,scene->addEllipse(ev->x() - 25,ev->y() - 50,50,50,blackPen,redBrush));
-		adding = false;
-    }
-    else if(connecting){
-		auto* temp = qgraphicsitem_cast<QGraphicsEllipseItem *>(scene->itemAt(QPoint(ev->x(),ev->y() - 25), QTransform()));
-		qDebug() << connecting;
-		if(temp){
-			temp->setBrush(blueBrush);
-			temp->setPen(whitePen);
-			--i;
-//			x,y lingkaran1
-//          x,y lingkaran2
-//          Compare the two objects, if they're the same, don't establish link
-//          Get pointer for the both of them, use that to identify the nodes, draw and establish edge.
-        }
+		idGenerator += 1;
+		QPointF posWithOffset(ev->x() - 7,ev->y());
 
-        // I'm not proud of this.
-        if(i == 0){
-//			d.addEdge(weight,src,dest,scene->addLine(args));
-			connecting = false;
-            i = 2;
-        }
-    }
+		auto* tempEllipse = scene->addEllipse(ev->x() - 25, ev->y() - 50,50,50,blackPen,redBrush);
+		scene->addText(QString::fromStdString(s))->setPos(posWithOffset);
+
+		tempEllipse->setZValue(1);
+		d.addNode(s,tempEllipse,ev->x(),ev->y() - 25);
+		adding = false;
+	}
+
+//	Checks if the cast was succesful, ensuring that the clicked item is an ellipse
+	if(castedGraphicItem){
+		if(settingStart){
+			d.findGraphicItem(castedGraphicItem)->distanceFromStart = 0;
+			startNodeUI = clickedItem;
+			hasSetStart = true;
+			settingStart = false;
+			castedGraphicItem->setBrush(*new QBrush(Qt::green));
+			ui->setStart->setText("Set Destination Node");
+		}
+		else if(settingDest){
+			destNodeUI = clickedItem;
+			castedGraphicItem->setBrush(*new QBrush(Qt::yellow));
+			hasSetDest = true;
+			settingDest = false;
+		}
+		else{
+//			Makes sure that the start node's color doesn't get changed
+			if(!(clickedItem == startNodeUI || clickedItem == destNodeUI)){
+				castedGraphicItem->setBrush(blueBrush);
+			}
+			--i;
+			selected[i] = castedGraphicItem;
+
+//			I'm not proud of this.
+			if(i == 0){
+//				src and dest will be the node pointer, to be used for the edge argument
+				auto* src = d.findGraphicItem(selected[0]);
+				auto* dest = d.findGraphicItem(selected[1]);
+				double weight = pythagoras(src->nodeX,src->nodeY,dest->nodeX,dest->nodeY);
+
+				QGraphicsItem* tempLine = scene->addLine(src->nodeX,src->nodeY,dest->nodeX,dest->nodeY);
+
+				if(!d.addEdge(weight, src, dest, tempLine)){
+					delete tempLine;
+				}
+
+//				connecting = false;
+				i = 2;
+			}
+		}
+	}
 }
 
-
-
+void revertColor(QGraphicsItem* selectedNode){
+	qgraphicsitem_cast<QGraphicsEllipseItem *>(selectedNode)->setBrush(redBrush);
+	qgraphicsitem_cast<QGraphicsEllipseItem *>(selectedNode)->setPen(blackPen);
+}
+double pythagoras(double x1, double y1, double x2, double y2){
+//	pythagoras without the square root, to save on computing power, while basically doing the same thing
+	return  sqrt(pow((x2 - x1) , 2.0) + pow((y2-y1) , 2.0));
+}

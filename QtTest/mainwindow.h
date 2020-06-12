@@ -23,9 +23,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-    void mousePressEvent(QMouseEvent *event);
-    void on_pushButton_2_clicked();
+	void mousePressEvent(QMouseEvent *event);
+	void on_pushButton_pressed();
+
+	void on_setStart_pressed();
 
 private:
     Ui::MainWindow *ui;

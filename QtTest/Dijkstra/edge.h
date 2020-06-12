@@ -7,11 +7,12 @@ class edge{
 	private:
         QGraphicsItem* edgeUI;
 		U* destination;
-		int weight;
+		double weight;
 	public:
-        edge(int weight, U* dest){
+		edge(double weight, U* dest,QGraphicsItem* edgeUI){
 			this->destination = dest;
 			this->weight = weight;
+			this->edgeUI = edgeUI;
 		}
 		U* getDestination(){
 			return destination;
@@ -26,5 +27,9 @@ class edge{
 		}
         void setWeight(int w){
             weight = w;
+		}
+
+		QGraphicsItem* getEdgeUI(){
+			return edgeUI;
 		}
 };

@@ -6,19 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>1366</width>
     <height>720</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
+    <width>1366</width>
     <height>720</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
+    <width>1366</width>
     <height>720</height>
    </size>
   </property>
@@ -29,33 +35,14 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>590</y>
       <width>121</width>
-      <height>71</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
      <string>Add Node</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>590</y>
-      <width>181</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string>Connect Nodes with Edges</string>
     </property>
    </widget>
    <widget class="QGraphicsView" name="graphicsView">
@@ -63,8 +50,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1600</width>
-      <height>900</height>
+      <width>1280</width>
+      <height>720</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -106,36 +93,29 @@
      <enum>QGraphicsView::NoDrag</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QPushButton" name="setStart">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>580</y>
-      <width>55</width>
-      <height>16</height>
+      <x>150</x>
+      <y>590</y>
+      <width>131</width>
+      <height>61</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Set Start Node</string>
     </property>
    </widget>
    <zorder>graphicsView</zorder>
    <zorder>pushButton</zorder>
-   <zorder>pushButton_2</zorder>
-   <zorder>label</zorder>
+   <zorder>setStart</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
+     <width>1366</width>
      <height>26</height>
     </rect>
    </property>

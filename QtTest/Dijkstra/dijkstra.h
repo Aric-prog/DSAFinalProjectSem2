@@ -1,22 +1,26 @@
 #include <iostream>
 #include <unordered_set>
 #include <QGraphicsItem>
+#include <QPainter>
+#include <QGraphicsEllipseItem>
 #include "VertexList.h"
 #include "PriorityQueue.h"
+#include <windows.h>
+#include <QDebug>
 
 using namespace std;
 
 class dijkstra{
-    unordered_set<node<string>*> visitedNodes;
+public:
+	unordered_set<node<string>*> visitedNodes;
     PriorityQueue<node<string>> pq;
     VertexList <string> vl;
 
-public:
-	void addNode(string s,QGraphicsItem* uiPointer,bool start = false){
-		vl.addNode(s, uiPointer,start);
+	void addNode(string s,QGraphicsItem* uiPointer,int x, int y,bool start = false){
+		vl.addNode(s, uiPointer,x,y,start);
     }
-	void addEdge(int weight,node<string>* src, node<string>* dest, QGraphicsItem* item){
-		vl.addEdge(weight,src,dest, item);
+	bool addEdge(double weight,node<string>* src, node<string>* dest, QGraphicsItem* item){
+		return vl.addEdge(weight,src,dest, item);
     }
 
     void show(){
@@ -51,15 +55,16 @@ public:
 
     //	Later, this function will accept two node* parameter, one for start and one for end
     //	Name is dijkstraRun so that this does not become a constructor
-    void dijkstraRun(string start, string dest){
-        enqueue(vl.atData(start));
+	void dijkstraRun(node<string>* start, node<string>* dest){
+		enqueue(start);
     //	Auto automatically knows the datatype from its initializer
-        auto* currNode = pq.popFront();
-        while(currNode != NULL){
+		auto* currNode = pq.popFront();
+		while(currNode != NULL){
             auto currEdge = vl.getEdges(currNode);
     //		Iterates through all the edges from a node
-            for(int i = 0; i < currEdge.size(); i++){
-    //			Blue line happens
+			for(unsigned int i = 0; i < currEdge.size(); i++){
+				qgraphicsitem_cast<QGraphicsLineItem *>(currEdge.at(i).getEdgeUI())->setPen(*new QPen(Qt::red));
+
                 auto* checkedDest = currEdge.at(i).getDestination();
 
                 if(currNode->distanceFromStart + currEdge.at(i).getWeight() < checkedDest->distanceFromStart){
@@ -69,28 +74,32 @@ public:
 
                 enqueue(checkedDest);
             }
-            currNode = pq.popFront();
+			currNode = pq.popFront();
         }
-        cout << endl;
 
     //	This at data is the destination
     //	Replace this with other data to check the path to that node
     //	This can be replaced with a function argument.
-        currNode = vl.atData(dest);
-        while(currNode != NULL){
-            cout << "( Node : ";
-            cout << currNode->data;
-            cout << " , Distance to node : " << currNode->distanceFromStart;
-            cout << " , Came from : ";
-            if(currNode->distanceFromStart != 0){
-                cout << currNode->cameFrom->data;
-            }
-            else{
-                cout << "-";
-            }
-            cout << " )"<< endl;
-            currNode = currNode->cameFrom;
-        }
+		currNode = dest;
+		if(!currNode->cameFrom){
+			cout << "Path to destination doesn't exist!" << endl;
+		}
+		else{
+			while(currNode != NULL){
+				cout << "( Node : ";
+				cout << currNode->data;
+				cout << " , Distance to node : " << currNode->distanceFromStart;
+				cout << " , Came from : ";
+				if(currNode->distanceFromStart != 0){
+					cout << currNode->cameFrom->data;
+				}
+				else{
+					cout << "-";
+				}
+				cout << " )"<< endl;
+				currNode = currNode->cameFrom;
+			}
+		}
     }
 };
 
