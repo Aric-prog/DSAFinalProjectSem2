@@ -32,7 +32,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="addNodeButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -106,9 +106,23 @@
      <string>Set Start Node</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="clearButton">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>590</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear All</string>
+    </property>
+   </widget>
    <zorder>graphicsView</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>addNodeButton</zorder>
    <zorder>setStart</zorder>
+   <zorder>clearButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

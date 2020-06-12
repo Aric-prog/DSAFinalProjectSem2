@@ -24,9 +24,11 @@ public:
 
 private slots:
 	void mousePressEvent(QMouseEvent *event);
-	void on_pushButton_pressed();
+	void on_addNodeButton_pressed();
 
 	void on_setStart_pressed();
+
+	void on_clearButton_pressed();
 
 private:
     Ui::MainWindow *ui;

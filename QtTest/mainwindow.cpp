@@ -38,17 +38,14 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->graphicsView->setScene(scene);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
     delete ui;
 }
 
-void MainWindow::on_pushButton_pressed()
-{
+void MainWindow::on_addNodeButton_pressed(){
 	adding = true;
 }
-void MainWindow::on_setStart_pressed()
-{
+void MainWindow::on_setStart_pressed(){
 	if(!hasSetStart){
 		settingStart = true;
 	}
@@ -57,6 +54,25 @@ void MainWindow::on_setStart_pressed()
 	} else{
 		d.dijkstraRun(d.findGraphicItem(startNodeUI), d.findGraphicItem(destNodeUI));
 	}
+}
+void MainWindow::on_clearButton_pressed(){
+	adding = false;
+
+	settingDest = false;
+	settingStart = false;
+	hasSetStart = false;
+	hasSetDest = false;
+
+	startNodeUI = NULL;
+	destNodeUI = NULL;
+	selected[0] = NULL;
+	selected[1] = NULL;
+
+	i = 2;
+	idGenerator = 'a';
+	scene->clear();
+	d.clearVertexList();
+	d.show();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *ev){
@@ -123,6 +139,7 @@ void revertColor(QGraphicsItem* selectedNode){
 	qgraphicsitem_cast<QGraphicsEllipseItem *>(selectedNode)->setPen(blackPen);
 }
 double pythagoras(double x1, double y1, double x2, double y2){
-//	pythagoras without the square root, to save on computing power, while basically doing the same thing
+//	pythagoras to calculate distance between two node
 	return  sqrt(pow((x2 - x1) , 2.0) + pow((y2-y1) , 2.0));
 }
+

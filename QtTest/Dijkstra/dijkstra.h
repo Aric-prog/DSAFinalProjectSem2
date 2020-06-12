@@ -53,6 +53,12 @@ public:
 		return NULL;
 	}
 
+	void clearVertexList(){
+		for(int i = 0; i < vl.size(); i++){
+			vl.deleteNode(0);
+		}
+	}
+
     //	Later, this function will accept two node* parameter, one for start and one for end
     //	Name is dijkstraRun so that this does not become a constructor
 	void dijkstraRun(node<string>* start, node<string>* dest){
@@ -99,8 +105,6 @@ public:
 				cout << " )"<< endl;
 				for(int i = 0; i < currNode->edgeList.size(); i++){
 					if(currNode->cameFrom != NULL){
-						cout << currNode->data << endl;
-						cout << currNode->cameFrom->data << endl;
 						if(currNode->edgeList.at(i).getDestination()->data == currNode->cameFrom->data){
 							qgraphicsitem_cast<QGraphicsLineItem *>(currNode->edgeList.at(i).getEdgeUI())->setPen(*new QPen(Qt::green));
 						}
