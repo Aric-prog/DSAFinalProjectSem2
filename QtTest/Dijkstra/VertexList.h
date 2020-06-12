@@ -215,7 +215,6 @@ class VertexList{
 			}
 			link = tmp->next;
 			
-			
 			if(link->next != NULL){
 				tmp->next = NULL;
 				tmp->next = link->next;

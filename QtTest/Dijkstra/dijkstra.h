@@ -63,7 +63,7 @@ public:
             auto currEdge = vl.getEdges(currNode);
     //		Iterates through all the edges from a node
 			for(unsigned int i = 0; i < currEdge.size(); i++){
-				qgraphicsitem_cast<QGraphicsLineItem *>(currEdge.at(i).getEdgeUI())->setPen(*new QPen(Qt::red));
+//				qgraphicsitem_cast<QGraphicsLineItem *>(currEdge.at(i).getEdgeUI())->setPen(*new QPen(Qt::red));
 
                 auto* checkedDest = currEdge.at(i).getDestination();
 
@@ -97,6 +97,15 @@ public:
 					cout << "-";
 				}
 				cout << " )"<< endl;
+				for(int i = 0; i < currNode->edgeList.size(); i++){
+					if(currNode->cameFrom != NULL){
+						cout << currNode->data << endl;
+						cout << currNode->cameFrom->data << endl;
+						if(currNode->edgeList.at(i).getDestination()->data == currNode->cameFrom->data){
+							qgraphicsitem_cast<QGraphicsLineItem *>(currNode->edgeList.at(i).getEdgeUI())->setPen(*new QPen(Qt::green));
+						}
+					}
+				}
 				currNode = currNode->cameFrom;
 			}
 		}

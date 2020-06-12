@@ -112,7 +112,6 @@ void MainWindow::mousePressEvent(QMouseEvent *ev){
 					delete tempLine;
 				}
 
-//				connecting = false;
 				i = 2;
 			}
 		}
