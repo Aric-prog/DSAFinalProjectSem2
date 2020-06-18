@@ -1,12 +1,11 @@
 #include <iostream>
 #include <unordered_set>
+
 #include <QGraphicsItem>
 #include <QPainter>
-#include <QGraphicsEllipseItem>
 #include "VertexList.h"
 #include "PriorityQueue.h"
 #include <windows.h>
-#include <QDebug>
 
 using namespace std;
 
@@ -69,7 +68,6 @@ public:
             auto currEdge = vl.getEdges(currNode);
     //		Iterates through all the edges from a node
 			for(unsigned int i = 0; i < currEdge.size(); i++){
-//				qgraphicsitem_cast<QGraphicsLineItem *>(currEdge.at(i).getEdgeUI())->setPen(*new QPen(Qt::red));
 
                 auto* checkedDest = currEdge.at(i).getDestination();
 
